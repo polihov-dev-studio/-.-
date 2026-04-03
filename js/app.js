@@ -955,7 +955,7 @@ function validateGithubSettings() {
   }
 }
 
-}
+
 
 async function saveToGithub() {
   try {
