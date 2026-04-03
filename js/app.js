@@ -87,13 +87,13 @@ function bindEvents() {
   el.passwordInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') handleLogin();
   });
-  el.logoutBtn.addEventListener('click', () => {
+  if (el.logoutBtn) el.logoutBtn.addEventListener('click', () => {
     sessionStorage.removeItem(AUTH_KEY);
     toggleAuth(false);
   });
 
-  el.addListBtn.addEventListener('click', () => openListModal());
-  el.openCreateItemBtn.addEventListener('click', () => openItemModal());
+  if (el.addListBtn) el.addListBtn.addEventListener('click', () => openListModal());
+  if (el.openCreateItemBtn) el.openCreateItemBtn.addEventListener('click', () => openItemModal());
   el.closeItemModalBtn.addEventListener('click', closeItemModal);
   el.closeListModalBtn.addEventListener('click', closeListModal);
   el.saveItemBtn.addEventListener('click', saveItemFromModal);
@@ -124,9 +124,9 @@ function bindEvents() {
 
   el.saveGithubBtn.addEventListener('click', saveToGithub);
   el.loadGithubBtn.addEventListener('click', loadFromGithub);
-  ['ghOwner', 'ghRepo', 'ghBranch', 'ghPath', 'ghToken'].forEach((key) => {
-    el[key].addEventListener('input', persistGithubSettingsFromForm);
-  });
+  if (el.ghToken) {
+    el.ghToken.addEventListener('input', persistGithubSettingsFromForm);
+  }
 
   [el.itemModal, el.listModal].forEach(modal => {
     modal.addEventListener('click', (e) => {
