@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ПОЛИХОВ — Товары</title>
+  <meta name="theme-color" content="#0a0d14" />
+  <style>
+    :root {
+      --bg: #07090f;
+      --bg-2: #0d111a;
+      --panel: rgba(18, 24, 38, 0.58);
+      --panel-strong: rgba(16, 22, 34, 0.78);
+      --border: rgba(255,255,255,0.09);
+      --border-strong: rgba(255,255,255,0.14);
+      --text: #f3f6fc;
+      --muted: #9ba6b7;
+      --accent: #8fb7ff;
+      --accent-2: #c8dbff;
+      --danger: #ff6b7d;
+      --success: #90d79f;
+      --shadow: 0 18px 60px rgba(0,0,0,0.35);
+      --radius: 22px;
+      --radius-sm: 14px;
+      --blur: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(80,120,255,0.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(255,255,255,0.08), transparent 22%),
+        linear-gradient(180deg, #06070b, #0a0d14 55%, #090c12 100%);
+      min-height: 100vh;
+    }
+
+    a { color: var(--accent-2); text-decoration: none; }
+    a:hover { opacity: 0.9; }
+
+    .hidden { display: none !important; }
+
+    .shell {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .glass {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(var(--blur));
+      -webkit-backdrop-filter: blur(var(--blur));
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 22px;
+      border-radius: 28px;
+      margin-bottom: 22px;
+      position: sticky;
+      top: 18px;
+      z-index: 20;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: 0.16em;
+      font-weight: 800;
+    }
+
+    .brand span {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .panel {
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .panel h2, .panel h3 {
+      margin: 0 0 14px;
+      font-size: 16px;
+      letter-spacing: 0.04em;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .stack { display: grid; gap: 12px; }
+
+    .stack-lg { display: grid; gap: 18px; }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 600;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.035);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 14px 14px;
+      font-size: 14px;
+      outline: none;
+      transition: 0.15s ease;
+    }
+
+    textarea { min-height: 88px; resize: vertical; }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: rgba(143, 183, 255, 0.6);
+      box-shadow: 0 0 0 4px rgba(143, 183, 255, 0.12);
+    }
+
+    button {
+      border: 0;
+      color: var(--text);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      border: 1px solid var(--border-strong);
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease, border-color 0.15s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+
+    .btn-primary {
+      background: linear-gradient(180deg, rgba(143,183,255,0.24), rgba(143,183,255,0.09));
+      border-color: rgba(143,183,255,0.36);
+    }
+
+    .btn-danger {
+      border-color: rgba(255,107,125,0.35);
+      background: linear-gradient(180deg, rgba(255,107,125,0.18), rgba(255,107,125,0.06));
+    }
+
+    .btn-ghost {
+      background: rgba(255,255,255,0.02);
+    }
+
+    .row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .row > * { flex: 1; min-width: 0; }
+
+    .list-box {
+      display: grid;
+      gap: 10px;
+    }
+
+    .list-item {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      background: rgba(255,255,255,0.03);
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .list-item:hover { border-color: rgba(255,255,255,0.16); }
+    .list-item.active {
+      border-color: rgba(143,183,255,0.42);
+      background: rgba(143,183,255,0.08);
+    }
+
+    .list-item-title {
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+    }
+
+    .main-grid {
+      display: grid;
+      gap: 22px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .summary {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .summary .badge { color: var(--text); }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      background: var(--panel-strong);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    .card-image {
+      height: 200px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01)),
+        linear-gradient(135deg, rgba(143,183,255,0.10), rgba(255,255,255,0.03));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .img-placeholder {
+      color: rgba(255,255,255,0.32);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .card-body {
+      padding: 16px;
+      display: grid;
+      gap: 14px;
+      flex: 1;
+    }
+
+    .card-top {
+      display: grid;
+      gap: 8px;
+    }
+
+    .card-title {
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .price {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .meta-chip {
+      font-size: 12px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+
+    .empty {
+      padding: 46px 24px;
+      text-align: center;
+      border-radius: 24px;
+      border: 1px dashed var(--border-strong);
+      color: var(--muted);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .login-screen {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 440px;
+      border-radius: 30px;
+      padding: 28px;
+    }
+
+    .login-card h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      letter-spacing: 0.08em;
+    }
+
+    .login-card p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .error {
+      color: var(--danger);
+      font-size: 13px;
+    }
+
+    .success {
+      color: var(--success);
+      font-size: 13px;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .helper {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .footer-note {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 1120px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .shell { padding: 14px; }
+      .topbar { position: static; }
+      .settings-grid { grid-template-columns: 1fr; }
+      .cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <section id="loginScreen" class="login-screen">
+    <div class="login-card glass">
+      <div class="badge">Простой вход по паролю</div>
+      <h1>ПОЛИХОВ / ТОВАРЫ</h1>
+      <p>Темный закрытый каталог покупок с разделами, категориями, карточками и синхронизацией JSON в GitHub.</p>
+      <div class="stack-lg">
+        <div class="field">
+          <label for="passwordInput">Пароль</label>
+          <input id="passwordInput" type="password" placeholder="Введите пароль" />
+        </div>
+        <button id="loginBtn" class="btn-primary">Войти</button>
+        <div id="loginMessage" class="error"></div>
+      </div>
+      <div class="footer-note">Пароль сейчас задан прямо в коде: <strong>1234</strong></div>
+    </div>
+  </section>
+
+  <main id="app" class="hidden">
+    <div class="shell">
+      <header class="topbar glass">
+        <div class="brand">
+          <h1>ПОЛИХОВ</h1>
+          <span>Каталог товаров / GitHub Pages</span>
+        </div>
+        <div class="actions">
+          <button id="loadGithubBtn">Загрузить из GitHub</button>
+          <button id="saveGithubBtn" class="btn-primary">Сохранить в GitHub</button>
+          <button id="logoutBtn" class="btn-ghost">Выйти</button>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="stack-lg">
+          <section class="panel glass">
+            <h2>Списки</h2>
+            <div class="stack">
+              <div class="field">
+                <label for="newListName">Новый список</label>
+                <div class="row">
+                  <input id="newListName" type="text" placeholder="Например: Автомобиль" />
+                  <button id="addListBtn" class="btn-primary">Добавить</button>
+                </div>
+              </div>
+              <div id="listsContainer" class="list-box"></div>
+            </div>
+          </section>
+
+          <section class="panel glass">
+            <h2>Добавить товар</h2>
+            <div class="stack">
+              <div class="field">
+                <label for="itemTitle">Название</label>
+                <input id="itemTitle" type="text" placeholder="KYB Excel-G задние амортизаторы" />
+              </div>
+              <div class="row">
+                <div class="field">
+                  <label for="itemCategory">Категория</label>
+                  <input id="itemCategory" type="text" placeholder="Подвеска" />
+                </div>
+                <div class="field">
+                  <label for="itemSubcategory">Подкатегория</label>
+                  <input id="itemSubcategory" type="text" placeholder="Задняя подвеска" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="field">
+                  <label for="itemPrice">Цена</label>
+                  <input id="itemPrice" type="text" placeholder="12 500 ₽" />
+                </div>
+                <div class="field">
+                  <label for="itemPlatform">Платформа / магазин</label>
+                  <input id="itemPlatform" type="text" placeholder="Ozon, Exist, Wildberries" />
+                </div>
+              </div>
+              <div class="field">
+                <label for="itemImage">Ссылка на фото</label>
+                <input id="itemImage" type="url" placeholder="https://..." />
+              </div>
+              <div class="field">
+                <label for="itemLink">Ссылка где купить</label>
+                <input id="itemLink" type="url" placeholder="https://..." />
+              </div>
+              <div class="field">
+                <label for="itemNote">Комментарий</label>
+                <textarea id="itemNote" placeholder="Артикул, уточнения, что сравнить"></textarea>
+              </div>
+              <button id="addItemBtn" class="btn-primary">Добавить товар</button>
+              <div class="helper">Все изменения сохраняются локально сразу. В GitHub отправляются по кнопке вверху.</div>
+            </div>
+          </section>
+
+          <section class="panel glass">
+            <h2>Настройки GitHub</h2>
+            <div class="stack">
+              <div class="settings-grid">
+                <div class="field">
+                  <label for="ghOwner">Owner</label>
+                  <input id="ghOwner" type="text" placeholder="username" />
+                </div>
+                <div class="field">
+                  <label for="ghRepo">Repository</label>
+                  <input id="ghRepo" type="text" placeholder="repo-name" />
+                </div>
+                <div class="field">
+                  <label for="ghBranch">Branch</label>
+                  <input id="ghBranch" type="text" placeholder="main" value="main" />
+                </div>
+                <div class="field">
+                  <label for="ghPath">Путь к JSON</label>
+                  <input id="ghPath" type="text" placeholder="data/items.json" value="data/items.json" />
+                </div>
+              </div>
+              <div class="field">
+                <label for="ghToken">GitHub token</label>
+                <input id="ghToken" type="password" placeholder="ghp_..." />
+              </div>
+              <div class="helper">Токен хранится только в браузере через localStorage. Для GitHub нужен токен с доступом на запись в репозиторий.</div>
+              <div id="syncMessage" class="helper"></div>
+            </div>
+          </section>
+        </aside>
+
+        <section class="main-grid">
+          <section class="panel glass">
+            <div class="toolbar">
+              <div>
+                <h2 id="currentListTitle" style="margin-bottom:6px;">Список не выбран</h2>
+                <div class="muted" id="currentListMeta">Создай список слева и начни добавлять товары.</div>
+              </div>
+              <div class="summary">
+                <div class="badge" id="countBadge">0 товаров</div>
+                <div class="badge" id="priceBadge">Сумма: —</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="field">
+                <label for="filterCategory">Фильтр по категории</label>
+                <select id="filterCategory">
+                  <option value="">Все категории</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="searchInput">Поиск</label>
+                <input id="searchInput" type="text" placeholder="Название, магазин, комментарий" />
+              </div>
+            </div>
+          </section>
+
+          <section id="cardsSection" class="cards"></section>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const SIMPLE_PASSWORD = '1234';
+    const STORAGE_KEY = 'polihov-products-data-v1';
+    const AUTH_KEY = 'polihov-products-auth-v1';
+    const SETTINGS_KEY = 'polihov-products-github-v1';
+
+    const defaultData = {
+      version: 1,
+      currentListId: null,
+      lists: [
+        {
+          id: crypto.randomUUID(),
+          name: 'Дом',
+          createdAt: new Date().toISOString(),
+          items: []
+        },
+        {
+          id: crypto.randomUUID(),
+          name: 'Автомобиль',
+          createdAt: new Date().toISOString(),
+          items: [
+            {
+              id: crypto.randomUUID(),
+              title: 'Пример: задние амортизаторы',
+              category: 'Подвеска',
+              subcategory: 'Задняя подвеска',
+              price: '12 500 ₽',
+              platform: 'Exist',
+              image: '',
+              buyUrl: 'https://example.com',
+              note: 'Тестовая карточка для примера структуры',
+              createdAt: new Date().toISOString()
+            }
+          ]
+        }
+      ]
+    };
+    defaultData.currentListId = defaultData.lists[1].id;
+
+    let state = loadState();
+    let githubSettings = loadGithubSettings();
+
+    const el = {
+      loginScreen: document.getElementById('loginScreen'),
+      app: document.getElementById('app'),
+      passwordInput: document.getElementById('passwordInput'),
+      loginBtn: document.getElementById('loginBtn'),
+      loginMessage: document.getElementById('loginMessage'),
+      logoutBtn: document.getElementById('logoutBtn'),
+      listsContainer: document.getElementById('listsContainer'),
+      newListName: document.getElementById('newListName'),
+      addListBtn: document.getElementById('addListBtn'),
+      currentListTitle: document.getElementById('currentListTitle'),
+      currentListMeta: document.getElementById('currentListMeta'),
+      cardsSection: document.getElementById('cardsSection'),
+      countBadge: document.getElementById('countBadge'),
+      priceBadge: document.getElementById('priceBadge'),
+      itemTitle: document.getElementById('itemTitle'),
+      itemCategory: document.getElementById('itemCategory'),
+      itemSubcategory: document.getElementById('itemSubcategory'),
+      itemPrice: document.getElementById('itemPrice'),
+      itemPlatform: document.getElementById('itemPlatform'),
+      itemImage: document.getElementById('itemImage'),
+      itemLink: document.getElementById('itemLink'),
+      itemNote: document.getElementById('itemNote'),
+      addItemBtn: document.getElementById('addItemBtn'),
+      filterCategory: document.getElementById('filterCategory'),
+      searchInput: document.getElementById('searchInput'),
+      ghOwner: document.getElementById('ghOwner'),
+      ghRepo: document.getElementById('ghRepo'),
+      ghBranch: document.getElementById('ghBranch'),
+      ghPath: document.getElementById('ghPath'),
+      ghToken: document.getElementById('ghToken'),
+      loadGithubBtn: document.getElementById('loadGithubBtn'),
+      saveGithubBtn: document.getElementById('saveGithubBtn'),
+      syncMessage: document.getElementById('syncMessage')
+    };
+
+    boot();
+
+    function boot() {
+      applyGithubSettingsToForm();
+      bindEvents();
+      const isAuthed = sessionStorage.getItem(AUTH_KEY) === '1';
+      toggleAuth(isAuthed);
+      render();
+    }
+
+    function bindEvents() {
+      el.loginBtn.addEventListener('click', handleLogin);
+      el.passwordInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') handleLogin();
+      });
+      el.logoutBtn.addEventListener('click', () => {
+        sessionStorage.removeItem(AUTH_KEY);
+        toggleAuth(false);
+      });
+      el.addListBtn.addEventListener('click', addList);
+      el.addItemBtn.addEventListener('click', addItem);
+      el.searchInput.addEventListener('input', renderCards);
+      el.filterCategory.addEventListener('change', renderCards);
+      el.saveGithubBtn.addEventListener('click', saveToGithub);
+      el.loadGithubBtn.addEventListener('click', loadFromGithub);
+
+      ['ghOwner','ghRepo','ghBranch','ghPath','ghToken'].forEach((key) => {
+        el[key].addEventListener('input', persistGithubSettingsFromForm);
+      });
+    }
+
+    function handleLogin() {
+      if (el.passwordInput.value === SIMPLE_PASSWORD) {
+        sessionStorage.setItem(AUTH_KEY, '1');
+        el.loginMessage.textContent = '';
+        toggleAuth(true);
+      } else {
+        el.loginMessage.textContent = 'Неверный пароль';
+      }
+    }
+
+    function toggleAuth(isAuthed) {
+      el.loginScreen.classList.toggle('hidden', isAuthed);
+      el.app.classList.toggle('hidden', !isAuthed);
+      if (isAuthed) {
+        setTimeout(() => el.newListName.focus(), 50);
+      } else {
+        el.passwordInput.value = '';
+        setTimeout(() => el.passwordInput.focus(), 50);
+      }
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return structuredClone(defaultData);
+        const parsed = JSON.parse(raw);
+        if (!parsed?.lists?.length) return structuredClone(defaultData);
+        return parsed;
+      } catch {
+        return structuredClone(defaultData);
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function loadGithubSettings() {
+      try {
+        const raw = localStorage.getItem(SETTINGS_KEY);
+        return raw ? JSON.parse(raw) : {
+          owner: '',
+          repo: '',
+          branch: 'main',
+          path: 'data/items.json',
+          token: ''
+        };
+      } catch {
+        return {
+          owner: '',
+          repo: '',
+          branch: 'main',
+          path: 'data/items.json',
+          token: ''
+        };
+      }
+    }
+
+    function persistGithubSettingsFromForm() {
+      githubSettings = {
+        owner: el.ghOwner.value.trim(),
+        repo: el.ghRepo.value.trim(),
+        branch: el.ghBranch.value.trim() || 'main',
+        path: el.ghPath.value.trim() || 'data/items.json',
+        token: el.ghToken.value.trim()
+      };
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(githubSettings));
+      setSyncMessage('Настройки GitHub сохранены на этом устройстве.', 'helper');
+    }
+
+    function applyGithubSettingsToForm() {
+      el.ghOwner.value = githubSettings.owner || '';
+      el.ghRepo.value = githubSettings.repo || '';
+      el.ghBranch.value = githubSettings.branch || 'main';
+      el.ghPath.value = githubSettings.path || 'data/items.json';
+      el.ghToken.value = githubSettings.token || '';
+    }
+
+    function getCurrentList() {
+      return state.lists.find(list => list.id === state.currentListId) || state.lists[0] || null;
+    }
+
+    function addList() {
+      const name = el.newListName.value.trim();
+      if (!name) return;
+      const list = {
+        id: crypto.randomUUID(),
+        name,
+        createdAt: new Date().toISOString(),
+        items: []
+      };
+      state.lists.unshift(list);
+      state.currentListId = list.id;
+      el.newListName.value = '';
+      saveState();
+      render();
+    }
+
+    function removeList(listId) {
+      const list = state.lists.find(x => x.id === listId);
+      if (!list) return;
+      const ok = confirm(`Удалить список «${list.name}» вместе со всеми товарами?`);
+      if (!ok) return;
+      state.lists = state.lists.filter(x => x.id !== listId);
+      state.currentListId = state.lists[0]?.id || null;
+      saveState();
+      render();
+    }
+
+    function renameList(listId) {
+      const list = state.lists.find(x => x.id === listId);
+      if (!list) return;
+      const nextName = prompt('Новое название списка:', list.name);
+      if (!nextName) return;
+      list.name = nextName.trim() || list.name;
+      saveState();
+      render();
+    }
+
+    function addItem() {
+      const current = getCurrentList();
+      if (!current) {
+        alert('Сначала создай список.');
+        return;
+      }
+      const title = el.itemTitle.value.trim();
+      if (!title) {
+        alert('Заполни название товара.');
+        return;
+      }
+      current.items.unshift({
+        id: crypto.randomUUID(),
+        title,
+        category: el.itemCategory.value.trim(),
+        subcategory: el.itemSubcategory.value.trim(),
+        price: el.itemPrice.value.trim(),
+        platform: el.itemPlatform.value.trim(),
+        image: el.itemImage.value.trim(),
+        buyUrl: el.itemLink.value.trim(),
+        note: el.itemNote.value.trim(),
+        createdAt: new Date().toISOString()
+      });
+      clearItemForm();
+      saveState();
+      render();
+    }
+
+    function clearItemForm() {
+      el.itemTitle.value = '';
+      el.itemCategory.value = '';
+      el.itemSubcategory.value = '';
+      el.itemPrice.value = '';
+      el.itemPlatform.value = '';
+      el.itemImage.value = '';
+      el.itemLink.value = '';
+      el.itemNote.value = '';
+    }
+
+    function editItem(itemId) {
+      const list = getCurrentList();
+      const item = list?.items.find(x => x.id === itemId);
+      if (!item) return;
+
+      const title = prompt('Название товара:', item.title);
+      if (title === null) return;
+      const category = prompt('Категория:', item.category || '');
+      if (category === null) return;
+      const subcategory = prompt('Подкатегория:', item.subcategory || '');
+      if (subcategory === null) return;
+      const price = prompt('Цена:', item.price || '');
+      if (price === null) return;
+      const platform = prompt('Платформа / магазин:', item.platform || '');
+      if (platform === null) return;
+      const image = prompt('Ссылка на фото:', item.image || '');
+      if (image === null) return;
+      const buyUrl = prompt('Ссылка где купить:', item.buyUrl || '');
+      if (buyUrl === null) return;
+      const note = prompt('Комментарий:', item.note || '');
+      if (note === null) return;
+
+      item.title = title.trim() || item.title;
+      item.category = category.trim();
+      item.subcategory = subcategory.trim();
+      item.price = price.trim();
+      item.platform = platform.trim();
+      item.image = image.trim();
+      item.buyUrl = buyUrl.trim();
+      item.note = note.trim();
+      saveState();
+      render();
+    }
+
+    function removeItem(itemId) {
+      const list = getCurrentList();
+      if (!list) return;
+      list.items = list.items.filter(item => item.id !== itemId);
+      saveState();
+      render();
+    }
+
+    function render() {
+      renderLists();
+      renderHeader();
+      renderFilters();
+      renderCards();
+    }
+
+    function renderLists() {
+      el.listsContainer.innerHTML = '';
+      if (!state.lists.length) {
+        el.listsContainer.innerHTML = '<div class="empty">Списков пока нет</div>';
+        return;
+      }
+
+      state.lists.forEach(list => {
+        const item = document.createElement('div');
+        item.className = `list-item ${list.id === state.currentListId ? 'active' : ''}`;
+        item.innerHTML = `
+          <div class="list-item-title">${escapeHtml(list.name)}</div>
+          <div class="row">
+            <span class="badge">${list.items.length} шт.</span>
+            <button class="btn-ghost" data-action="rename">Переименовать</button>
+            <button class="btn-danger" data-action="remove">Удалить</button>
+          </div>
+        `;
+        item.addEventListener('click', (e) => {
+          if (e.target.closest('button')) return;
+          state.currentListId = list.id;
+          saveState();
+          render();
+        });
+        item.querySelector('[data-action="rename"]').addEventListener('click', () => renameList(list.id));
+        item.querySelector('[data-action="remove"]').addEventListener('click', () => removeList(list.id));
+        el.listsContainer.appendChild(item);
+      });
+    }
+
+    function renderHeader() {
+      const list = getCurrentList();
+      if (!list) {
+        el.currentListTitle.textContent = 'Список не выбран';
+        el.currentListMeta.textContent = 'Создай список слева и начни добавлять товары.';
+        el.countBadge.textContent = '0 товаров';
+        el.priceBadge.textContent = 'Сумма: —';
+        return;
+      }
+      const total = list.items.reduce((sum, item) => {
+        const numeric = parsePrice(item.price);
+        return sum + numeric;
+      }, 0);
+      el.currentListTitle.textContent = list.name;
+      el.currentListMeta.textContent = `${list.items.length} карточек • ${collectCategories(list.items).length} категорий`;
+      el.countBadge.textContent = `${list.items.length} товаров`;
+      el.priceBadge.textContent = `Сумма: ${total ? formatMoney(total) : '—'}`;
+    }
+
+    function renderFilters() {
+      const list = getCurrentList();
+      const currentValue = el.filterCategory.value;
+      el.filterCategory.innerHTML = '<option value="">Все категории</option>';
+      collectCategories(list?.items || []).forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        el.filterCategory.appendChild(option);
+      });
+      el.filterCategory.value = currentValue;
+    }
+
+    function renderCards() {
+      const list = getCurrentList();
+      el.cardsSection.innerHTML = '';
+      if (!list) {
+        el.cardsSection.innerHTML = '<div class="empty">Нет активного списка</div>';
+        return;
+      }
+
+      const query = el.searchInput.value.trim().toLowerCase();
+      const category = el.filterCategory.value;
+
+      const items = list.items.filter(item => {
+        const matchesCategory = !category || item.category === category;
+        const hay = [item.title, item.category, item.subcategory, item.platform, item.note].join(' ').toLowerCase();
+        const matchesSearch = !query || hay.includes(query);
+        return matchesCategory && matchesSearch;
+      });
+
+      if (!items.length) {
+        el.cardsSection.innerHTML = '<div class="empty">По этому фильтру ничего не найдено</div>';
+        return;
+      }
+
+      items.forEach(item => {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-image">
+            ${item.image ? `<img src="${escapeAttribute(item.image)}" alt="${escapeAttribute(item.title)}" onerror="this.parentNode.innerHTML='<div class=&quot;img-placeholder&quot;>Фото недоступно</div>'">` : '<div class="img-placeholder">Нет фото</div>'}
+          </div>
+          <div class="card-body">
+            <div class="card-top">
+              <div class="card-title">${escapeHtml(item.title)}</div>
+              <div class="meta">
+                ${item.category ? `<span class="meta-chip">${escapeHtml(item.category)}</span>` : ''}
+                ${item.subcategory ? `<span class="meta-chip">${escapeHtml(item.subcategory)}</span>` : ''}
+                ${item.platform ? `<span class="meta-chip">${escapeHtml(item.platform)}</span>` : ''}
+              </div>
+            </div>
+            <div class="price">${escapeHtml(item.price || '—')}</div>
+            ${item.note ? `<div class="muted">${escapeHtml(item.note)}</div>` : ''}
+            <div class="card-actions">
+              ${item.buyUrl ? `<a href="${escapeAttribute(item.buyUrl)}" target="_blank" rel="noopener noreferrer"><button class="btn-primary">Открыть товар</button></a>` : ''}
+              <button data-action="edit">Изменить</button>
+              <button data-action="delete" class="btn-danger">Удалить</button>
+            </div>
+          </div>
+        `;
+        card.querySelector('[data-action="edit"]').addEventListener('click', () => editItem(item.id));
+        card.querySelector('[data-action="delete"]').addEventListener('click', () => removeItem(item.id));
+        el.cardsSection.appendChild(card);
+      });
+    }
+
+    function collectCategories(items) {
+      return [...new Set(items.map(item => item.category).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ru'));
+    }
+
+    function parsePrice(value) {
+      if (!value) return 0;
+      const normalized = String(value).replace(/\s/g, '').replace(/,/g, '.').match(/[\d.]+/g);
+      if (!normalized) return 0;
+      return Number(normalized.join('')) || 0;
+    }
+
+    function formatMoney(value) {
+      return new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 0 }).format(value) + ' ₽';
+    }
+
+    function setSyncMessage(message, type = 'helper') {
+      el.syncMessage.className = type;
+      el.syncMessage.textContent = message;
+    }
+
+    async function githubRequest(url, options = {}) {
+      const response = await fetch(url, {
+        ...options,
+        headers: {
+          'Accept': 'application/vnd.github+json',
+          'Authorization': `Bearer ${githubSettings.token}`,
+          'X-GitHub-Api-Version': '2022-11-28',
+          ...(options.headers || {})
+        }
+      });
+
+      if (!response.ok) {
+        let details = '';
+        try {
+          const data = await response.json();
+          details = data.message || '';
+        } catch {}
+        throw new Error(`GitHub API: ${response.status} ${details}`.trim());
+      }
+      return response.json();
+    }
+
+    function validateGithubSettings() {
+      persistGithubSettingsFromForm();
+      if (!githubSettings.owner || !githubSettings.repo || !githubSettings.branch || !githubSettings.path || !githubSettings.token) {
+        throw new Error('Заполни owner, repo, branch, путь к JSON и token.');
+      }
+    }
+
+    async function saveToGithub() {
+      try {
+        validateGithubSettings();
+        setSyncMessage('Сохранение в GitHub...', 'helper');
+        const base = `https://api.github.com/repos/${githubSettings.owner}/${githubSettings.repo}/contents/${encodeURIComponent(githubSettings.path).replace(/%2F/g, '/')}`;
+        let sha = undefined;
+        try {
+          const existing = await githubRequest(`${base}?ref=${encodeURIComponent(githubSettings.branch)}`);
+          sha = existing.sha;
+        } catch (error) {
+          if (!String(error.message).includes('404')) throw error;
+        }
+
+        const content = btoa(unescape(encodeURIComponent(JSON.stringify(state, null, 2))));
+        await githubRequest(base, {
+          method: 'PUT',
+          body: JSON.stringify({
+            message: 'Update products data from GitHub Pages',
+            content,
+            branch: githubSettings.branch,
+            sha
+          })
+        });
+        setSyncMessage('Готово. JSON сохранен в репозиторий.', 'success');
+      } catch (error) {
+        console.error(error);
+        setSyncMessage(error.message || 'Ошибка сохранения в GitHub.', 'error');
+      }
+    }
+
+    async function loadFromGithub() {
+      try {
+        validateGithubSettings();
+        setSyncMessage('Загрузка из GitHub...', 'helper');
+        const base = `https://api.github.com/repos/${githubSettings.owner}/${githubSettings.repo}/contents/${encodeURIComponent(githubSettings.path).replace(/%2F/g, '/')}`;
+        const file = await githubRequest(`${base}?ref=${encodeURIComponent(githubSettings.branch)}`);
+        if (!file.content) throw new Error('Файл найден, но содержимое пустое.');
+        const decoded = decodeURIComponent(escape(atob(file.content.replace(/\n/g, ''))));
+        const parsed = JSON.parse(decoded);
+        if (!parsed?.lists) throw new Error('JSON имеет неверную структуру.');
+        state = parsed;
+        if (!state.currentListId && state.lists[0]) state.currentListId = state.lists[0].id;
+        saveState();
+        render();
+        setSyncMessage('Готово. Данные загружены из GitHub.', 'success');
+      } catch (error) {
+        console.error(error);
+        setSyncMessage(error.message || 'Ошибка загрузки из GitHub.', 'error');
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function escapeAttribute(str) {
+      return escapeHtml(str);
+    }
+  </script>
+</body>
+</html>
