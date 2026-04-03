@@ -3,14 +3,14 @@
 Структура проекта:
 
 - `index.html` — разметка
-- `assets/styles.css` — стили
-- `assets/app.js` — логика
+- `css/style.css` — стили
+- `js/app.js` — логика
 - `data/items.json` — стартовый JSON
 
 ## Что менять
 
 ### Пароль
-В `assets/app.js`:
+В `js/app.js`:
 ```js
 const SIMPLE_PASSWORD = '1234';
 ```
