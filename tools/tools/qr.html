@@ -1,0 +1,6 @@
+<!DOCTYPE html><html><body>
+<input id="text"><button onclick="gen()">QR</button><div id="out"></div>
+<script>
+function gen(){let t=text.value;out.innerHTML='<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(t)+'">';localStorage.setItem('qr',t);}
+text.value=localStorage.getItem('qr')||'';
+</script></body></html>

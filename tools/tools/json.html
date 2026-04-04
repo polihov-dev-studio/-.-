@@ -1,0 +1,5 @@
+<!DOCTYPE html><html><body>
+<textarea id="t"></textarea><button onclick="f()">Format</button><pre id="o"></pre>
+<script>
+function f(){try{o.textContent=JSON.stringify(JSON.parse(t.value),null,2)}catch(e){alert('error')}}
+</script></body></html>
