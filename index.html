@@ -34,6 +34,12 @@
         </div>
 
         <div class="actions topbar-actions">
+          <button id="topbarAddItemBtn" class="icon-btn" aria-label="Добавить товар" data-title="Добавить товар">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <button id="toggleFiltersBtn" class="icon-btn" aria-label="Фильтры" data-title="Фильтры">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+          </button>
           <button id="importBtn" class="icon-btn" aria-label="Импорт JSON" data-title="Импорт JSON">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0l-4-4m4 4l4-4M5 15v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" /></svg>
           </button>
@@ -75,7 +81,7 @@
           <section class="panel glass">
             <div class="section-head">
               <h2>Товары</h2>
-              <button id="openCreateItemBtn" class="btn-primary btn-small" data-title="Добавить новый товар">Добавить товар</button>
+              
             </div>
             <!--<div class="stack">
               <div class="helper">Создание и редактирование открывается в отдельном окне.</div>
@@ -100,16 +106,15 @@
         </aside>
 
         <section class="main-grid">
-          <section class="panel glass">
+          
+          <section id="filtersPanel" class="panel glass filters-panel hidden">
             <div class="toolbar">
               <div>
-                <h2 id="currentListTitle" style="margin-bottom:6px;">Список не выбран</h2>
-                <div id="currentListMeta" class="muted">Создай список слева и начни добавлять товары.</div>
+                <h2 style="margin-bottom:6px;">Фильтры</h2>
+                <div class="muted">Поиск, категории, статус и сортировка.</div>
               </div>
               <div class="summary">
-                <div id="countBadge" class="badge">0 товаров</div>
-                <div id="doneBadge" class="badge success">Куплено: 0</div>
-                <div id="priceBadge" class="badge">Сумма: —</div>
+                <button id="closeFiltersBtn" class="btn-small btn-ghost" data-title="Скрыть фильтры">Скрыть</button>
               </div>
             </div>
 
@@ -143,17 +148,28 @@
               </div>
               <div>
                 <label for="sortSelect">Сортировка</label>
-                <div class="select-wrap">
-                  <select id="sortSelect">
-                    <option value="manual">Ручной порядок</option>
-                    <option value="newest">Сначала новые</option>
-                    <option value="oldest">Сначала старые</option>
-                    <option value="title">По названию</option>
-                    <option value="priceAsc">По цене ↑</option>
-                    <option value="priceDesc">По цене ↓</option>
-                  </select>
-                  <svg class="select-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-                </div>
+                <div class="custom-select" data-select-id="sortSelect"><select id="sortSelect">
+                  <option value="manual">Ручной порядок</option>
+                  <option value="newest">Сначала новые</option>
+                  <option value="oldest">Сначала старые</option>
+                  <option value="title">По названию</option>
+                  <option value="priceAsc">По цене ↑</option>
+                  <option value="priceDesc">По цене ↓</option>
+                </select></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel glass">
+            <div class="toolbar">
+              <div>
+                <h2 id="currentListTitle" style="margin-bottom:6px;">Список не выбран</h2>
+                <div id="currentListMeta" class="muted">Создай список слева и начни добавлять товары.</div>
+              </div>
+              <div class="summary">
+                <div id="countBadge" class="badge">0 товаров</div>
+                <div id="doneBadge" class="badge success">Куплено: 0</div>
+                <div id="priceBadge" class="badge">Сумма: —</div>
               </div>
             </div>
           </section>
