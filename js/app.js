@@ -21,6 +21,10 @@ const el = {
   loginBtn: document.getElementById('loginBtn'),
   loginMessage: document.getElementById('loginMessage'),
   logoutBtn: document.getElementById('logoutBtn'),
+  topbarAddItemBtn: document.getElementById('topbarAddItemBtn'),
+  toggleFiltersBtn: document.getElementById('toggleFiltersBtn'),
+  closeFiltersBtn: document.getElementById('closeFiltersBtn'),
+  filtersPanel: document.getElementById('filtersPanel'),
 
   listsContainer: document.getElementById('listsContainer'),
   addListBtn: document.getElementById('addListBtn'),
@@ -94,6 +98,9 @@ function bindEvents() {
 
   if (el.addListBtn) el.addListBtn.addEventListener('click', () => openListModal());
   if (el.openCreateItemBtn) el.openCreateItemBtn.addEventListener('click', () => openItemModal());
+  if (el.topbarAddItemBtn) el.topbarAddItemBtn.addEventListener('click', () => openItemModal());
+  if (el.toggleFiltersBtn) el.toggleFiltersBtn.addEventListener('click', toggleFiltersPanel);
+  if (el.closeFiltersBtn) el.closeFiltersBtn.addEventListener('click', closeFiltersPanel);
   el.closeItemModalBtn.addEventListener('click', closeItemModal);
   el.closeListModalBtn.addEventListener('click', closeListModal);
   el.saveItemBtn.addEventListener('click', saveItemFromModal);
@@ -142,6 +149,7 @@ function bindEvents() {
       closeItemModal();
       closeListModal();
       closeAllDropdowns();
+      closeFiltersPanel();
     }
   });
 
@@ -159,6 +167,29 @@ function bindEvents() {
   });
 }
 
+
+
+function toggleFiltersPanel() {
+  if (!el.filtersPanel) return;
+  const willOpen = el.filtersPanel.classList.contains('hidden');
+  if (willOpen) {
+    openFiltersPanel();
+  } else {
+    closeFiltersPanel();
+  }
+}
+
+function openFiltersPanel() {
+  if (!el.filtersPanel) return;
+  el.filtersPanel.classList.remove('hidden');
+  if (el.toggleFiltersBtn) el.toggleFiltersBtn.classList.add('is-active');
+}
+
+function closeFiltersPanel() {
+  if (!el.filtersPanel) return;
+  el.filtersPanel.classList.add('hidden');
+  if (el.toggleFiltersBtn) el.toggleFiltersBtn.classList.remove('is-active');
+}
 
 function initCustomSelects() {
   document.querySelectorAll('.custom-select').forEach(setupCustomSelect);
@@ -403,6 +434,7 @@ function render() {
   renderLists();
   renderHeader();
   renderFilters();
+  refreshCustomSelect(el.sortSelect);
   renderCards();
 }
 
@@ -426,7 +458,7 @@ function renderLists() {
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5h.01M12 12h.01M12 19h.01"/></svg>
           </button>
           <div id="${menuId}" class="dropdown-menu glass hidden" data-align="left" role="menu">
-            <button class="dropdown-item" data-action="edit" data-title="Изменить товар" data-title="Изменить список" role="menuitem">
+            <button class="dropdown-item" data-action="edit" data-title="Изменить список" role="menuitem">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 1 1 3 3L7 19l-4 1 1-4Z"/></svg>
               <span>Изменить список</span>
             </button>
