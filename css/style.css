@@ -775,3 +775,65 @@ button:disabled { opacity: 0.55; cursor: default; transform: none; }
   background: rgba(138,181,255,0.8);
   box-shadow: 0 0 0 6px rgba(138,181,255,0.10);
 }
+
+
+
+/* higher stacking context for all menus */
+html, body, .shell, .layout, .main-grid, .stack-lg, .topbar, .panel, .cards, .card, .list-item, .toolbar, .status-row {
+  overflow: visible;
+}
+.topbar,
+.panel,
+.card,
+.list-item,
+.custom-select,
+.dropdown,
+.actions,
+.topbar-actions {
+  position: relative;
+}
+.topbar { z-index: 5000; isolation: isolate; }
+.topbar-actions { z-index: 6000; }
+.panel { z-index: 10; isolation: isolate; }
+.dropdown { z-index: 7000 !important; }
+.dropdown.is-open,
+.custom-select.is-open { z-index: 40000 !important; }
+.dropdown-menu,
+.custom-select-menu {
+  z-index: 45000 !important;
+  position: absolute !important;
+  box-shadow: 0 26px 70px rgba(0,0,0,0.48), 0 0 0 1px rgba(255,255,255,0.06);
+}
+.modal,
+.modal-card { z-index: 50000; }
+
+/* topbar action buttons */
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* filters drawer */
+.filters-panel {
+  overflow: visible;
+  transform-origin: top center;
+  animation: filters-panel-in 0.22s ease;
+}
+@keyframes filters-panel-in {
+  from { opacity: 0; transform: translateY(-8px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ensure custom select for sort too */
+.custom-select-menu {
+  top: calc(100% + 10px);
+}
+
+@media (max-width: 760px) {
+  .topbar-actions {
+    justify-content: center;
+    width: 100%;
+  }
+}
