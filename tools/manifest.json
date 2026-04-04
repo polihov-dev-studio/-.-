@@ -1,7 +1,7 @@
 {
-  "name": "POLIHOV TOOLS v6 elite",
+  "name": "POLIHOV TOOLS v7 flagship",
   "short_name": "POLIHOV",
-  "description": "Premium dark multi-page toolkit with elite visual polish.",
+  "description": "Premium dark multi-page toolkit with flagship dashboard UX.",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0a0d13",

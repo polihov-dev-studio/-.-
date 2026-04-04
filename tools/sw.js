@@ -1,5 +1,5 @@
 
-const CACHE='polihov-v6-elite';
+const CACHE='polihov-v7-flagship';
 const SHELL=[
   './','./index.html','./css/style.css','./js/app.js','./js/tool-utils.js',
   './pages/all-tools.html','./pages/favorites.html','./pages/recent.html','./pages/about.html',

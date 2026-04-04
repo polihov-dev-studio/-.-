@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>POLIHOV TOOLS v6 elite</title>
+<title>POLIHOV TOOLS v7 flagship</title>
 <meta name="theme-color" content="#0a0d13"/>
 <link rel="manifest" href="manifest.json"/>
 <link rel="stylesheet" href="css/style.css"/>
@@ -10,21 +10,26 @@
 <div class="app">
 
 <aside class="sidebar">
-  <div class="brand"><div class="brand-logo"></div><div><strong>POLIHOV TOOLS</strong><small>v6 elite</small></div></div>
-  <div class="side-section"><div class="side-title">Navigation</div><div class="nav-list">
-    <a class="nav-link" href="index.html"><span class="nav-dot"></span> Dashboard</a>
-    <a class="nav-link" href="pages/all-tools.html"><span class="nav-dot"></span> All tools</a>
-    <a class="nav-link" href="pages/favorites.html"><span class="nav-dot"></span> Favorites</a>
-    <a class="nav-link" href="pages/recent.html"><span class="nav-dot"></span> Recent</a>
-    <a class="nav-link" href="pages/about.html"><span class="nav-dot"></span> About</a>
-  </div></div>
-  <div class="side-section"><div class="side-title">Spotlight</div><div class="nav-list">
-    <a class="nav-link" href="tools/pdf-studio.html"><span class="nav-dot"></span> PDF Studio</a>
-    <a class="nav-link" href="tools/image-lab.html"><span class="nav-dot"></span> Image Lab</a>
-    <a class="nav-link" href="tools/qr-generator.html"><span class="nav-dot"></span> QR Generator</a>
-    <a class="nav-link" href="tools/csv-json.html"><span class="nav-dot"></span> CSV ↔ JSON</a>
-  </div></div>
-  <div class="side-footer small">Premium glass UI, command palette, recent, favorites, autosave, PWA shell.</div>
+  <div class="brand"><div class="brand-logo"></div><div><strong>POLIHOV TOOLS</strong><small>v7 flagship</small></div></div>
+  <div class="side-section">
+    <div class="side-title">Navigation</div>
+    <div class="nav-list">
+      <a class="nav-link" href="index.html"><span class="nav-dot"></span> Dashboard</a>
+      <a class="nav-link" href="pages/all-tools.html"><span class="nav-dot"></span> All tools</a>
+      <a class="nav-link" href="pages/favorites.html"><span class="nav-dot"></span> Favorites</a>
+      <a class="nav-link" href="pages/recent.html"><span class="nav-dot"></span> Recent</a>
+      <a class="nav-link" href="pages/about.html"><span class="nav-dot"></span> About</a>
+    </div>
+  </div>
+  <div class="side-section">
+    <div class="side-title">Dashboard widgets</div>
+    <div class="widget-stack">
+      <div class="widget"><div class="small muted">Pinned widgets</div><strong data-stat-pinned>0</strong></div>
+      <div class="widget"><div class="small muted">Favorites</div><strong data-stat-favorites>0</strong></div>
+      <div class="widget"><div class="small muted">Recent opens</div><strong data-stat-recent>0</strong></div>
+    </div>
+  </div>
+  <div class="side-footer small">Flagship build: stronger dashboard, onboarding flow, pinned widgets, cinematic ambient motion, command palette.</div>
 </aside>
 
 <main class="content">
@@ -36,22 +41,29 @@
 
   <section class="hero">
     <div class="panel reveal">
-      <div class="tag">POLIHOV STYLE · ELITE</div>
-      <h1>Dark premium toolkit with a more expensive visual language and smoother product UX.</h1>
-      <p>v6 elite brings richer glass panels, refined spacing, animated reveal effects, category filtering, onboarding, and a more polished dashboard.</p>
+      <div class="tag">POLIHOV STYLE · FLAGSHIP</div>
+      <h1>Premium dashboard experience with pinned widgets, richer onboarding, living stats, and more cinematic motion.</h1>
+      <p>v7 flagship is built to feel closer to a true product panel: stronger left-side navigation, personalized dashboard blocks, a guided entry flow, and deeper visual polish.</p>
       <div class="hero-actions" style="margin-top:18px">
-        <a class="btn" href="pages/all-tools.html">Browse all tools</a>
+        <a class="btn" href="pages/all-tools.html">Open full library</a>
         <a class="btn secondary" href="tools/pdf-studio.html">Launch PDF Studio</a>
       </div>
     </div>
     <div class="panel reveal">
-      <div class="metric-grid">
-        <div class="metric"><strong>18</strong><span class="muted">Separate tool pages</span></div>
-        <div class="metric"><strong>Elite UI</strong><span class="muted">Richer glass visuals</span></div>
-        <div class="metric"><strong>⌘K</strong><span class="muted">Global search overlay</span></div>
-        <div class="metric"><strong>PWA</strong><span class="muted">Installable shell</span></div>
+      <div class="stats-grid">
+        <div class="metric"><strong data-stat-tools>0</strong><span class="muted">Tool pages</span></div>
+        <div class="metric"><strong data-stat-favorites>0</strong><span class="muted">Favorites</span></div>
+        <div class="metric"><strong data-stat-recent>0</strong><span class="muted">Recent opens</span></div>
+        <div class="metric"><strong data-stat-pinned>0</strong><span class="muted">Pinned widgets</span></div>
       </div>
     </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div><h2>Pinned widgets</h2><p class="muted">Your fastest path to the tools you actually use.</p></div>
+    </div>
+    <div class="pinned-grid" data-pinned-widgets></div>
   </section>
 
   <section class="section">
@@ -89,13 +101,13 @@
         <div class="history-list" data-recent-tools></div>
       </div>
       <div class="panel reveal">
-        <div class="section-head"><div><h2>Favorites</h2><p class="muted">Your pinned toolkit</p></div></div>
+        <div class="section-head"><div><h2>Favorites</h2><p class="muted">Your pinned favorites</p></div></div>
         <div class="history-list" data-fav-tools></div>
       </div>
     </div>
   </section>
 
-  <footer>Built for GitHub Pages. Some advanced PDF and QR features use CDN libraries on first load.</footer>
+  <footer>Built for GitHub Pages. Advanced PDF and QR features use CDN libraries on first load.</footer>
 </main>
 </div>
 
@@ -107,14 +119,76 @@
 </div>
 
 
-<div class="onboarding" id="onboardingBox">
-  <h3>Welcome to v6 elite</h3>
-  <div class="muted small" style="margin-bottom:14px">
-    Press <strong>Ctrl/Cmd + K</strong> for instant tool search. Use the category chips to filter the library fast. Your recent tools and favorites are saved locally.
-  </div>
-  <div class="hero-actions">
-    <button class="btn" data-close-onboarding>Got it</button>
-    <a class="btn secondary" href="pages/all-tools.html">Open library</a>
+<div class="onboarding-overlay" id="onboardingOverlay">
+  <div class="onboarding-frame">
+    <div class="progress"><span></span></div>
+
+    <section class="onboarding-step active">
+      <div class="step-grid">
+        <div class="scene">
+          <div class="tag">Step 1</div>
+          <h2 style="margin-top:12px">Welcome to POLIHOV TOOLS v7 flagship</h2>
+          <p class="muted">This build is shaped like a premium dashboard instead of just a tool list. The left menu anchors navigation, widgets, and live dashboard stats.</p>
+        </div>
+        <div class="panel">
+          <h3 style="margin-bottom:8px">What changed</h3>
+          <div class="history-list">
+            <div class="history-item">Flagship left menu layout</div>
+            <div class="history-item">Pinned widgets on the dashboard</div>
+            <div class="history-item">Full onboarding flow</div>
+            <div class="history-item">More cinematic animation language</div>
+          </div>
+          <div class="hero-actions" style="margin-top:16px">
+            <button class="btn" data-step-next>Continue</button>
+            <button class="btn secondary" data-skip-onboarding>Skip</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="onboarding-step">
+      <div class="step-grid">
+        <div class="scene">
+          <div class="tag">Step 2</div>
+          <h2 style="margin-top:12px">Use the command palette</h2>
+          <p class="muted">Press <strong>Ctrl/Cmd + K</strong> anywhere to open instant search. It jumps across the whole tool library from one overlay.</p>
+        </div>
+        <div class="panel">
+          <h3 style="margin-bottom:8px">Fast controls</h3>
+          <div class="history-list">
+            <div class="history-item">Ctrl/Cmd + K → global search</div>
+            <div class="history-item">Category chips → focused filtering</div>
+            <div class="history-item">Drag files onto quick tiles → instant launch</div>
+          </div>
+          <div class="hero-actions" style="margin-top:16px">
+            <button class="btn secondary" data-step-prev>Back</button>
+            <button class="btn" data-step-next>Continue</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="onboarding-step">
+      <div class="step-grid">
+        <div class="scene">
+          <div class="tag">Step 3</div>
+          <h2 style="margin-top:12px">Pin tools to your dashboard</h2>
+          <p class="muted">Each tool page now lets you pin it as a dashboard widget, so your most-used tools stay in a premium quick-access block.</p>
+        </div>
+        <div class="panel">
+          <h3 style="margin-bottom:8px">Personal dashboard</h3>
+          <div class="history-list">
+            <div class="history-item">Pinned widgets are saved locally</div>
+            <div class="history-item">Favorites and recent usage are tracked locally</div>
+            <div class="history-item">Forms keep autosave behavior</div>
+          </div>
+          <div class="hero-actions" style="margin-top:16px">
+            <button class="btn secondary" data-step-prev>Back</button>
+            <button class="btn" data-finish-onboarding>Finish</button>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </div>
 

@@ -8,32 +8,37 @@
 <div class="app">
 
 <aside class="sidebar">
-  <div class="brand"><div class="brand-logo"></div><div><strong>POLIHOV TOOLS</strong><small>v6 elite</small></div></div>
-  <div class="side-section"><div class="side-title">Navigation</div><div class="nav-list">
-    <a class="nav-link" href="../index.html"><span class="nav-dot"></span> Dashboard</a>
-    <a class="nav-link" href="../pages/all-tools.html"><span class="nav-dot"></span> All tools</a>
-    <a class="nav-link" href="../pages/favorites.html"><span class="nav-dot"></span> Favorites</a>
-    <a class="nav-link" href="../pages/recent.html"><span class="nav-dot"></span> Recent</a>
-    <a class="nav-link" href="../pages/about.html"><span class="nav-dot"></span> About</a>
-  </div></div>
-  <div class="side-section"><div class="side-title">Spotlight</div><div class="nav-list">
-    <a class="nav-link" href="../tools/pdf-studio.html"><span class="nav-dot"></span> PDF Studio</a>
-    <a class="nav-link" href="../tools/image-lab.html"><span class="nav-dot"></span> Image Lab</a>
-    <a class="nav-link" href="../tools/qr-generator.html"><span class="nav-dot"></span> QR Generator</a>
-    <a class="nav-link" href="../tools/csv-json.html"><span class="nav-dot"></span> CSV ↔ JSON</a>
-  </div></div>
-  <div class="side-footer small">Premium glass UI, command palette, recent, favorites, autosave, PWA shell.</div>
+  <div class="brand"><div class="brand-logo"></div><div><strong>POLIHOV TOOLS</strong><small>v7 flagship</small></div></div>
+  <div class="side-section">
+    <div class="side-title">Navigation</div>
+    <div class="nav-list">
+      <a class="nav-link" href="../index.html"><span class="nav-dot"></span> Dashboard</a>
+      <a class="nav-link" href="../pages/all-tools.html"><span class="nav-dot"></span> All tools</a>
+      <a class="nav-link" href="../pages/favorites.html"><span class="nav-dot"></span> Favorites</a>
+      <a class="nav-link" href="../pages/recent.html"><span class="nav-dot"></span> Recent</a>
+      <a class="nav-link" href="../pages/about.html"><span class="nav-dot"></span> About</a>
+    </div>
+  </div>
+  <div class="side-section">
+    <div class="side-title">Dashboard widgets</div>
+    <div class="widget-stack">
+      <div class="widget"><div class="small muted">Pinned widgets</div><strong data-stat-pinned>0</strong></div>
+      <div class="widget"><div class="small muted">Favorites</div><strong data-stat-favorites>0</strong></div>
+      <div class="widget"><div class="small muted">Recent opens</div><strong data-stat-recent>0</strong></div>
+    </div>
+  </div>
+  <div class="side-footer small">Flagship build: stronger dashboard, onboarding flow, pinned widgets, cinematic ambient motion, command palette.</div>
 </aside>
 
 <main class="content">
   <div class="topbar">
     <button class="btn secondary mobile-toggle" data-mobile-toggle>☰ Menu</button>
-    <div class="searchbar"><span>★</span><input disabled value="Your pinned tools" /></div>
+    <div class="searchbar"><span>★</span><input disabled value="Your favorite tools" /></div>
     <a class="btn secondary" href="all-tools.html">Library</a>
   </div>
   <section class="section">
     <div class="panel reveal">
-      <div class="section-head"><div><h2>Favorites</h2><p class="muted">Pin tools from any tool page.</p></div></div>
+      <div class="section-head"><div><h2>Favorites</h2><p class="muted">Marked inside individual tool pages.</p></div></div>
       <div class="grid cards" id="favGrid"></div>
     </div>
   </section>

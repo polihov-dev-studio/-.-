@@ -20,8 +20,10 @@ const TOOL_DEFS = [
   {slug:"lorem-generator", name:"Lorem Generator", icon:"LO", category:"Text", desc:"Generate placeholder paragraphs.", tags:["lorem","content"]},
 ];
 
+const DEFAULT_PINNED = ["pdf-studio","image-lab","qr-generator"];
+
 const POLIHOV = {
-  prefix:"polihov_v6_",
+  prefix:"polihov_v7_",
   qs(s,r=document){return r.querySelector(s)},
   qsa(s,r=document){return [...r.querySelectorAll(s)]},
   save(k,v){localStorage.setItem(this.prefix+k, JSON.stringify(v))},
@@ -46,7 +48,7 @@ const POLIHOV = {
     let list=this.load("recent",[]);
     list=list.filter(x=>x.slug!==tool.slug);
     list.unshift({...tool,at:new Date().toISOString()});
-    this.save("recent", list.slice(0,14));
+    this.save("recent", list.slice(0,20));
   },
   getRecent(){return this.load("recent",[])},
   setFavorite(slug,val){
@@ -58,7 +60,14 @@ const POLIHOV = {
   getFavorites(){
     const fav=this.load("favorites",{});
     return TOOL_DEFS.filter(t=>fav[t.slug]);
-  }
+  },
+  getPinned(){
+    const stored = this.load("pinned_widgets", null);
+    if(stored) return stored;
+    this.save("pinned_widgets", DEFAULT_PINNED);
+    return DEFAULT_PINNED;
+  },
+  setPinned(arr){ this.save("pinned_widgets", arr.slice(0,6)); }
 };
 
 function renderCard(tool, prefix="tools/"){
@@ -90,8 +99,12 @@ function bindGlobalSearch(inputSel, outputSel, prefix="tools/", chipSel=null){
   if(chipSel){
     document.querySelectorAll(chipSel).forEach(chip=>{
       chip.onclick=()=>{
-        document.querySelectorAll(chipSel).forEach(c=>c.classList.remove("active"));
+        document.querySelectorAll(chipSel).forEach(c=>{
+          c.classList.remove("active");
+          c.classList.add("secondary");
+        });
         chip.classList.add("active");
+        chip.classList.remove("secondary");
         currentCategory = chip.dataset.category;
         draw();
       };
@@ -147,6 +160,22 @@ function initCommonToolPage(slug){
     paint();
     fav.onclick=()=>{POLIHOV.setFavorite(slug,!POLIHOV.isFavorite(slug)); paint(); POLIHOV.toast(POLIHOV.isFavorite(slug)?"Added to favorites":"Removed from favorites");}
   }
+  const pin=document.querySelector("[data-pin-widget]");
+  if(pin){
+    const paintPin=()=>{
+      const current = POLIHOV.getPinned();
+      pin.textContent = current.includes(slug) ? "📌 Pinned widget" : "📍 Pin to dashboard";
+    };
+    paintPin();
+    pin.onclick=()=>{
+      let current = POLIHOV.getPinned();
+      if(current.includes(slug)) current = current.filter(x=>x!==slug);
+      else current = [slug, ...current.filter(x=>x!==slug)].slice(0,6);
+      POLIHOV.setPinned(current);
+      paintPin();
+      POLIHOV.toast(current.includes(slug) ? "Pinned to dashboard" : "Removed from dashboard");
+    };
+  }
   const n=document.querySelector("[data-tool-name]");
   if(n&&tool) n.textContent=tool.name;
 }
@@ -161,6 +190,35 @@ function populateMiniLists(prefix="tools/"){
     const items=POLIHOV.getFavorites();
     f.innerHTML=items.length ? items.map(t=>`<a class="history-item" href="${prefix}${t.slug}.html"><strong>${t.name}</strong><div class="small muted">${t.category}</div></a>`).join("") : `<div class="history-item muted">No favorites yet.</div>`;
   }
+}
+
+function renderPinnedWidgets(sel, prefix="tools/"){
+  const wrap=document.querySelector(sel);
+  if(!wrap) return;
+  const pinned = POLIHOV.getPinned()
+    .map(slug => TOOL_DEFS.find(t=>t.slug===slug))
+    .filter(Boolean);
+  wrap.innerHTML = pinned.map(tool => `
+    <a class="pinned-widget reveal" href="${prefix}${tool.slug}.html">
+      <div class="icon-chip">${tool.icon}</div>
+      <div><strong>${tool.name}</strong><div class="small muted">${tool.category}</div></div>
+      <div class="small muted">${tool.desc}</div>
+    </a>
+  `).join("") || `<div class="note">No pinned widgets yet.</div>`;
+  revealIn();
+}
+
+function updateDashboardStats(){
+  const stats = {
+    tools: TOOL_DEFS.length,
+    favorites: POLIHOV.getFavorites().length,
+    recent: POLIHOV.getRecent().length,
+    pinned: POLIHOV.getPinned().length
+  };
+  document.querySelectorAll("[data-stat-tools]").forEach(el=>el.textContent = stats.tools);
+  document.querySelectorAll("[data-stat-favorites]").forEach(el=>el.textContent = stats.favorites);
+  document.querySelectorAll("[data-stat-recent]").forEach(el=>el.textContent = stats.recent);
+  document.querySelectorAll("[data-stat-pinned]").forEach(el=>el.textContent = stats.pinned);
 }
 
 async function sha256(text){
@@ -236,26 +294,60 @@ function revealIn(){
   items.forEach(i=>io.observe(i));
 }
 
-function initOnboarding(){
-  const key="onboarding_seen";
-  if(POLIHOV.load(key,false)) return;
-  const box=document.getElementById("onboardingBox");
-  if(!box) return;
-  box.classList.add("show");
-  const close=box.querySelector("[data-close-onboarding]");
-  close.onclick=()=>{
-    box.classList.remove("show");
-    POLIHOV.save(key,true);
-  };
+function initOnboardingFlow(){
+  const overlay = document.getElementById("onboardingOverlay");
+  if(!overlay) return;
+  const seen = POLIHOV.load("onboarding_complete", false);
+  if(seen) return;
+
+  const steps = [...overlay.querySelectorAll(".onboarding-step")];
+  const bar = overlay.querySelector(".progress span");
+  let current = 0;
+
+  function paint(){
+    steps.forEach((s,i)=>s.classList.toggle("active", i===current));
+    bar.style.width = `${((current+1)/steps.length)*100}%`;
+  }
+
+  overlay.classList.add("show");
+  paint();
+
+  overlay.querySelectorAll("[data-step-next]").forEach(btn=>{
+    btn.onclick = ()=>{
+      current = Math.min(current+1, steps.length-1);
+      paint();
+    };
+  });
+  overlay.querySelectorAll("[data-step-prev]").forEach(btn=>{
+    btn.onclick = ()=>{
+      current = Math.max(current-1, 0);
+      paint();
+    };
+  });
+  overlay.querySelectorAll("[data-finish-onboarding]").forEach(btn=>{
+    btn.onclick = ()=>{
+      POLIHOV.save("onboarding_complete", true);
+      overlay.classList.remove("show");
+      POLIHOV.toast("Onboarding completed");
+    };
+  });
+  overlay.querySelectorAll("[data-skip-onboarding]").forEach(btn=>{
+    btn.onclick = ()=>{
+      POLIHOV.save("onboarding_complete", true);
+      overlay.classList.remove("show");
+    };
+  });
 }
 
 window.addEventListener("DOMContentLoaded",()=>{
   initSidebar();
   populateMiniLists();
+  renderPinnedWidgets("[data-pinned-widgets]", document.body.dataset.prefix || "tools/");
+  updateDashboardStats();
   initCommandPalette(document.body.dataset.prefix || "tools/");
   initDropTiles();
   revealIn();
-  initOnboarding();
+  initOnboardingFlow();
 });
 
 if("serviceWorker" in navigator){

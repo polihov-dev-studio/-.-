@@ -1,15 +1,16 @@
-# POLIHOV TOOLS v6 elite
+# POLIHOV TOOLS v7 flagship
 
-Готовый статический сайт в стиле POLIHOV STYLE с более дорогим визуалом.
+Готовый статический сайт в стиле POLIHOV STYLE с более продуктовым UX.
 
-## Что улучшено
-- более дорогой glassmorphism UI
-- улучшенные карточки и панели
-- reveal-анимации
-- onboarding-плашка
-- фильтры по категориям
-- глобальный поиск по Ctrl/Cmd + K
-- та же архитектура отдельных страниц, PWA, recent, favorites, autosave
+## Что добавлено
+- полноценный onboarding flow из нескольких шагов
+- более сильное левое меню
+- pinned widgets на dashboard
+- live статистика: tools / favorites / recent / pinned
+- более кинематографичные фоновые и reveal-анимации
+- pin to dashboard прямо из страницы инструмента
+- global search по Ctrl/Cmd + K
+- recent / favorites / autosave / PWA shell
 
 ## Запуск
 1. Загрузи файлы в GitHub репозиторий
@@ -19,4 +20,4 @@
 ## Важно
 - PDF и QR используют CDN-библиотеки при первом открытии
 - оболочка сайта и страницы кешируются service worker'ом
-- данные форм и история хранятся в localStorage браузера
+- данные форм, избранное, недавние и pinned widgets хранятся в localStorage браузера
