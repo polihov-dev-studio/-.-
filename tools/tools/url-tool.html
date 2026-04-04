@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>URL Encode / Decode — POLIHOV TOOLS</title>
+<link rel="manifest" href="../manifest.json"/><link rel="stylesheet" href="../css/style.css"/>
+
+</head>
+<body data-prefix="../tools/">
+<div class="app">
+
+<aside class="sidebar">
+  <div class="brand"><div class="brand-logo"></div><div><strong>POLIHOV TOOLS</strong><small>v6 elite</small></div></div>
+  <div class="side-section"><div class="side-title">Navigation</div><div class="nav-list">
+    <a class="nav-link" href="../index.html"><span class="nav-dot"></span> Dashboard</a>
+    <a class="nav-link" href="../pages/all-tools.html"><span class="nav-dot"></span> All tools</a>
+    <a class="nav-link" href="../pages/favorites.html"><span class="nav-dot"></span> Favorites</a>
+    <a class="nav-link" href="../pages/recent.html"><span class="nav-dot"></span> Recent</a>
+    <a class="nav-link" href="../pages/about.html"><span class="nav-dot"></span> About</a>
+  </div></div>
+  <div class="side-section"><div class="side-title">Spotlight</div><div class="nav-list">
+    <a class="nav-link" href="../tools/pdf-studio.html"><span class="nav-dot"></span> PDF Studio</a>
+    <a class="nav-link" href="../tools/image-lab.html"><span class="nav-dot"></span> Image Lab</a>
+    <a class="nav-link" href="../tools/qr-generator.html"><span class="nav-dot"></span> QR Generator</a>
+    <a class="nav-link" href="../tools/csv-json.html"><span class="nav-dot"></span> CSV ↔ JSON</a>
+  </div></div>
+  <div class="side-footer small">Premium glass UI, command palette, recent, favorites, autosave, PWA shell.</div>
+</aside>
+
+<main class="content">
+  <div class="topbar">
+    <button class="btn secondary mobile-toggle" data-mobile-toggle>☰ Menu</button>
+    <div class="searchbar"><span>⌕</span><input onclick="document.getElementById('commandOverlay').classList.add('open');document.getElementById('commandInput').focus()" placeholder="Global search with Ctrl/Cmd + K" /></div>
+    <a class="btn secondary" href="../pages/all-tools.html">Library</a>
+  </div>
+  <div class="layout">
+    <section>
+      <div class="panel reveal">
+        <div class="kv"><div><div class="small muted">Tool page</div><h1 style="font-size:2rem;margin:6px 0">URL Encode / Decode</h1><p class="muted">Encode text for URLs or decode it back.</p></div><button class="btn secondary" data-favorite-toggle>☆ Add to favorites</button></div>
+      </div>
+      <div class="panel reveal">
+<form id="urlForm">
+<div class="form-grid">
+<div class="field"><label>Input</label><textarea id="urlInput"></textarea></div>
+<div class="field"><label>Output</label><textarea id="urlOutput"></textarea></div>
+</div>
+<div class="actions"><button class="btn" type="button" id="uEnc">Encode</button><button class="btn" type="button" id="uDec">Decode</button><button class="btn secondary" type="button" id="uCopy">Copy</button></div>
+</form>
+</div>
+    </section>
+    <aside class="panel reveal">
+      <div class="section-head"><h2>Quick notes</h2></div>
+      <div class="grid">
+        <div class="stat"><strong data-tool-name>URL Encode / Decode</strong><div class="small muted">Separate page with local autosave.</div></div>
+        <div class="stat"><div class="kv"><span>Runtime</span><strong>Client-side</strong></div></div>
+        <div class="stat"><div class="kv"><span>PWA shell</span><strong>Enabled</strong></div></div>
+      </div>
+      <div class="section-head" style="margin-top:16px"><h2>History</h2></div>
+      <div class="history-list" data-history></div>
+    </aside>
+  </div>
+  <footer>POLIHOV STYLE — dark, premium, strict, glassmorphism.</footer>
+</main>
+</div>
+
+<div class="overlay" id="commandOverlay">
+  <div class="overlay-panel">
+    <div class="controlbar"><span>⌘K</span><input id="commandInput" placeholder="Search tools, categories, tags..." /></div>
+    <div class="overlay-grid" id="commandList"></div>
+  </div>
+</div>
+
+<script src="../js/app.js"></script>
+<script src="../js/tool-utils.js"></script>
+<script>initCommonToolPage('url-tool');</script>
+
+<script>
+persistForm('urlForm',['#urlInput','#urlOutput']);
+uEnc.onclick=()=>{urlOutput.value=encodeURIComponent(urlInput.value); saveHistory('url-tool',{summary:'Encoded text'})};
+uDec.onclick=()=>{try{urlOutput.value=decodeURIComponent(urlInput.value); saveHistory('url-tool',{summary:'Decoded text'})}catch(e){POLIHOV.toast('Invalid encoded value','danger')}};
+uCopy.onclick=()=>POLIHOV.copy(urlOutput.value);
+renderHistory('url-tool','[data-history]',i=>`<strong>${i.summary}</strong><div class="small muted">${new Date(i.at).toLocaleString()}</div>`);
+</script>
+
+</body></html>

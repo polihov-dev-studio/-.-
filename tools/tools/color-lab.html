@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Color Lab — POLIHOV TOOLS</title>
+<link rel="manifest" href="../manifest.json"/><link rel="stylesheet" href="../css/style.css"/>
+
+</head>
+<body data-prefix="../tools/">
+<div class="app">
+
+<aside class="sidebar">
+  <div class="brand"><div class="brand-logo"></div><div><strong>POLIHOV TOOLS</strong><small>v6 elite</small></div></div>
+  <div class="side-section"><div class="side-title">Navigation</div><div class="nav-list">
+    <a class="nav-link" href="../index.html"><span class="nav-dot"></span> Dashboard</a>
+    <a class="nav-link" href="../pages/all-tools.html"><span class="nav-dot"></span> All tools</a>
+    <a class="nav-link" href="../pages/favorites.html"><span class="nav-dot"></span> Favorites</a>
+    <a class="nav-link" href="../pages/recent.html"><span class="nav-dot"></span> Recent</a>
+    <a class="nav-link" href="../pages/about.html"><span class="nav-dot"></span> About</a>
+  </div></div>
+  <div class="side-section"><div class="side-title">Spotlight</div><div class="nav-list">
+    <a class="nav-link" href="../tools/pdf-studio.html"><span class="nav-dot"></span> PDF Studio</a>
+    <a class="nav-link" href="../tools/image-lab.html"><span class="nav-dot"></span> Image Lab</a>
+    <a class="nav-link" href="../tools/qr-generator.html"><span class="nav-dot"></span> QR Generator</a>
+    <a class="nav-link" href="../tools/csv-json.html"><span class="nav-dot"></span> CSV ↔ JSON</a>
+  </div></div>
+  <div class="side-footer small">Premium glass UI, command palette, recent, favorites, autosave, PWA shell.</div>
+</aside>
+
+<main class="content">
+  <div class="topbar">
+    <button class="btn secondary mobile-toggle" data-mobile-toggle>☰ Menu</button>
+    <div class="searchbar"><span>⌕</span><input onclick="document.getElementById('commandOverlay').classList.add('open');document.getElementById('commandInput').focus()" placeholder="Global search with Ctrl/Cmd + K" /></div>
+    <a class="btn secondary" href="../pages/all-tools.html">Library</a>
+  </div>
+  <div class="layout">
+    <section>
+      <div class="panel reveal">
+        <div class="kv"><div><div class="small muted">Tool page</div><h1 style="font-size:2rem;margin:6px 0">Color Lab</h1><p class="muted">Convert HEX and RGB values with live preview.</p></div><button class="btn secondary" data-favorite-toggle>☆ Add to favorites</button></div>
+      </div>
+      <div class="panel reveal">
+<form id="colorForm">
+<div class="form-grid">
+<div class="field"><label>HEX</label><input type="text" id="hexInput" placeholder="#7aa8ff"/></div>
+<div class="field"><label>RGB</label><input type="text" id="rgbInput" placeholder="122, 168, 255"/></div>
+</div>
+<div class="actions"><button class="btn" type="button" id="h2r">HEX → RGB</button><button class="btn" type="button" id="r2h">RGB → HEX</button></div>
+<div class="preview"><div id="colorPreview" class="stat" style="min-height:160px"></div></div>
+</form>
+</div>
+    </section>
+    <aside class="panel reveal">
+      <div class="section-head"><h2>Quick notes</h2></div>
+      <div class="grid">
+        <div class="stat"><strong data-tool-name>Color Lab</strong><div class="small muted">Separate page with local autosave.</div></div>
+        <div class="stat"><div class="kv"><span>Runtime</span><strong>Client-side</strong></div></div>
+        <div class="stat"><div class="kv"><span>PWA shell</span><strong>Enabled</strong></div></div>
+      </div>
+      <div class="section-head" style="margin-top:16px"><h2>History</h2></div>
+      <div class="history-list" data-history></div>
+    </aside>
+  </div>
+  <footer>POLIHOV STYLE — dark, premium, strict, glassmorphism.</footer>
+</main>
+</div>
+
+<div class="overlay" id="commandOverlay">
+  <div class="overlay-panel">
+    <div class="controlbar"><span>⌘K</span><input id="commandInput" placeholder="Search tools, categories, tags..." /></div>
+    <div class="overlay-grid" id="commandList"></div>
+  </div>
+</div>
+
+<script src="../js/app.js"></script>
+<script src="../js/tool-utils.js"></script>
+<script>initCommonToolPage('color-lab');</script>
+
+<script>
+persistForm('colorForm',['#hexInput','#rgbInput']);
+function paint(c){colorPreview.style.background=c; colorPreview.innerHTML='<strong>'+c+'</strong>'}
+h2r.onclick=()=>{const h=hexInput.value.replace('#','').trim(); if(!/^[0-9a-fA-F]{6}$/.test(h)){POLIHOV.toast('Invalid HEX','danger');return} const r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16); rgbInput.value=`${r}, ${g}, ${b}`; paint('#'+h); saveHistory('color-lab',{summary:'#'+h+' → '+rgbInput.value})};
+r2h.onclick=()=>{const m=rgbInput.value.match(/(\d+)\D+(\d+)\D+(\d+)/); if(!m){POLIHOV.toast('Invalid RGB','danger');return} const [r,g,b]=[m[1],m[2],m[3]].map(n=>Math.max(0,Math.min(255,Number(n)))); const hex='#'+[r,g,b].map(n=>n.toString(16).padStart(2,'0')).join(''); hexInput.value=hex; paint(hex); saveHistory('color-lab',{summary:`${r},${g},${b} → ${hex}`})};
+paint('#101726');
+renderHistory('color-lab','[data-history]',i=>`<strong>${i.summary}</strong><div class="small muted">${new Date(i.at).toLocaleString()}</div>`);
+</script>
+
+</body></html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PDF Studio — POLIHOV TOOLS</title>
+<link rel="manifest" href="../manifest.json"/><link rel="stylesheet" href="../css/style.css"/>
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+</head>
+<body data-prefix="../tools/">
+<div class="app">
+
+<aside class="sidebar">
+  <div class="brand"><div class="brand-logo"></div><div><strong>POLIHOV TOOLS</strong><small>v6 elite</small></div></div>
+  <div class="side-section"><div class="side-title">Navigation</div><div class="nav-list">
+    <a class="nav-link" href="../index.html"><span class="nav-dot"></span> Dashboard</a>
+    <a class="nav-link" href="../pages/all-tools.html"><span class="nav-dot"></span> All tools</a>
+    <a class="nav-link" href="../pages/favorites.html"><span class="nav-dot"></span> Favorites</a>
+    <a class="nav-link" href="../pages/recent.html"><span class="nav-dot"></span> Recent</a>
+    <a class="nav-link" href="../pages/about.html"><span class="nav-dot"></span> About</a>
+  </div></div>
+  <div class="side-section"><div class="side-title">Spotlight</div><div class="nav-list">
+    <a class="nav-link" href="../tools/pdf-studio.html"><span class="nav-dot"></span> PDF Studio</a>
+    <a class="nav-link" href="../tools/image-lab.html"><span class="nav-dot"></span> Image Lab</a>
+    <a class="nav-link" href="../tools/qr-generator.html"><span class="nav-dot"></span> QR Generator</a>
+    <a class="nav-link" href="../tools/csv-json.html"><span class="nav-dot"></span> CSV ↔ JSON</a>
+  </div></div>
+  <div class="side-footer small">Premium glass UI, command palette, recent, favorites, autosave, PWA shell.</div>
+</aside>
+
+<main class="content">
+  <div class="topbar">
+    <button class="btn secondary mobile-toggle" data-mobile-toggle>☰ Menu</button>
+    <div class="searchbar"><span>⌕</span><input onclick="document.getElementById('commandOverlay').classList.add('open');document.getElementById('commandInput').focus()" placeholder="Global search with Ctrl/Cmd + K" /></div>
+    <a class="btn secondary" href="../pages/all-tools.html">Library</a>
+  </div>
+  <div class="layout">
+    <section>
+      <div class="panel reveal">
+        <div class="kv"><div><div class="small muted">Tool page</div><h1 style="font-size:2rem;margin:6px 0">PDF Studio</h1><p class="muted">Merge PDFs, split pages, remove pages, rotate pages, and convert images to PDF.</p></div><button class="btn secondary" data-favorite-toggle>☆ Add to favorites</button></div>
+      </div>
+      <div class="panel reveal">
+<form id="pdfForm">
+<div class="field"><label>Upload PDF files or images</label><div class="dropzone"><input type="file" id="pdfFiles" multiple accept=".pdf,image/jpeg,image/png"/><div class="small muted" style="margin-top:8px">Batch-friendly for merge and image-to-PDF.</div></div></div>
+<div class="form-grid">
+<div class="field"><label>Mode</label><select id="pdfMode">
+<option value="merge">Merge all PDFs</option>
+<option value="split">Split PDF into one-page files</option>
+<option value="remove">Remove selected pages</option>
+<option value="rotate">Rotate all pages</option>
+<option value="jpg2pdf">Images to PDF</option>
+</select></div>
+<div class="field"><label>Pages to remove (2,4,7)</label><input type="text" id="pdfRemovePages"/></div>
+<div class="field"><label>Rotate angle</label><select id="pdfRotate"><option value="90">90°</option><option value="180">180°</option><option value="270">270°</option></select></div>
+<div class="field"><label>Preview selected file</label><button class="btn secondary" type="button" id="pdfPreviewBtn">Show preview</button></div>
+</div>
+<div class="actions"><button class="btn" type="button" id="pdfRun">Run PDF tool</button></div>
+<div id="pdfMsg" class="output">Ready.</div>
+<div class="preview"><embed id="pdfPreview"/></div>
+<div class="note small">Uses pdf-lib from CDN on first load.</div>
+</form>
+</div>
+    </section>
+    <aside class="panel reveal">
+      <div class="section-head"><h2>Quick notes</h2></div>
+      <div class="grid">
+        <div class="stat"><strong data-tool-name>PDF Studio</strong><div class="small muted">Separate page with local autosave.</div></div>
+        <div class="stat"><div class="kv"><span>Runtime</span><strong>Client-side</strong></div></div>
+        <div class="stat"><div class="kv"><span>PWA shell</span><strong>Enabled</strong></div></div>
+      </div>
+      <div class="section-head" style="margin-top:16px"><h2>History</h2></div>
+      <div class="history-list" data-history></div>
+    </aside>
+  </div>
+  <footer>POLIHOV STYLE — dark, premium, strict, glassmorphism.</footer>
+</main>
+</div>
+
+<div class="overlay" id="commandOverlay">
+  <div class="overlay-panel">
+    <div class="controlbar"><span>⌘K</span><input id="commandInput" placeholder="Search tools, categories, tags..." /></div>
+    <div class="overlay-grid" id="commandList"></div>
+  </div>
+</div>
+
+<script src="../js/app.js"></script>
+<script src="../js/tool-utils.js"></script>
+<script>initCommonToolPage('pdf-studio');</script>
+
+<script>
+persistForm('pdfForm',['#pdfMode','#pdfRemovePages','#pdfRotate']);
+pdfPreviewBtn.onclick=()=>{
+  const f=[...pdfFiles.files].find(x=>x.name.toLowerCase().endsWith('.pdf'));
+  if(!f){POLIHOV.toast('Select a PDF first','danger');return;}
+  pdfPreview.src=URL.createObjectURL(f);
+};
+pdfRun.onclick=async()=>{
+  const files=[...pdfFiles.files]; if(!files.length){pdfMsg.textContent='Please select files first.'; return;}
+  pdfMsg.textContent='Processing...';
+  try{
+    const {PDFDocument,degrees}=PDFLib;
+    const mode=pdfMode.value;
+    if(mode==='merge'){
+      const out=await PDFDocument.create();
+      for(const file of files.filter(f=>f.name.toLowerCase().endsWith('.pdf'))){
+        const src=await PDFDocument.load(await fileToArrayBuffer(file));
+        const copied=await out.copyPages(src, src.getPageIndices()); copied.forEach(p=>out.addPage(p));
+      }
+      const bytes=await out.save(); POLIHOV.downloadBlob(new Blob([bytes],{type:'application/pdf'}),'merged.pdf');
+      pdfMsg.innerHTML='<div class="ok">Merged PDF downloaded.</div>'; saveHistory('pdf-studio',{summary:'Merged '+files.length+' file(s)'}); return;
+    }
+    if(mode==='split'){
+      const file=files.find(f=>f.name.toLowerCase().endsWith('.pdf')); if(!file) throw new Error('Select one PDF for split mode.');
+      const src=await PDFDocument.load(await fileToArrayBuffer(file));
+      for(let i=0;i<src.getPageCount();i++){ const out=await PDFDocument.create(); const [page]=await out.copyPages(src,[i]); out.addPage(page); const bytes=await out.save(); POLIHOV.downloadBlob(new Blob([bytes],{type:'application/pdf'}),`page-${i+1}.pdf`); }
+      pdfMsg.innerHTML='<div class="ok">Split done. Pages downloaded separately.</div>'; saveHistory('pdf-studio',{summary:'Split '+src.getPageCount()+' pages'}); return;
+    }
+    if(mode==='remove'){
+      const file=files.find(f=>f.name.toLowerCase().endsWith('.pdf')); if(!file) throw new Error('Select one PDF for remove mode.');
+      const rem=pdfRemovePages.value.split(',').map(x=>Number(x.trim())-1).filter(x=>Number.isInteger(x)&&x>=0);
+      const src=await PDFDocument.load(await fileToArrayBuffer(file)); const out=await PDFDocument.create();
+      const keep=src.getPageIndices().filter(i=>!rem.includes(i)); const copied=await out.copyPages(src, keep); copied.forEach(p=>out.addPage(p));
+      const bytes=await out.save(); POLIHOV.downloadBlob(new Blob([bytes],{type:'application/pdf'}),'pages-removed.pdf');
+      pdfMsg.innerHTML='<div class="ok">New PDF downloaded without selected pages.</div>'; saveHistory('pdf-studio',{summary:'Removed pages '+pdfRemovePages.value}); return;
+    }
+    if(mode==='rotate'){
+      const file=files.find(f=>f.name.toLowerCase().endsWith('.pdf')); if(!file) throw new Error('Select one PDF for rotate mode.');
+      const src=await PDFDocument.load(await fileToArrayBuffer(file)); const angle=Number(pdfRotate.value||90);
+      src.getPages().forEach(p=>p.setRotation(degrees(angle)));
+      const bytes=await src.save(); POLIHOV.downloadBlob(new Blob([bytes],{type:'application/pdf'}),'rotated.pdf');
+      pdfMsg.innerHTML='<div class="ok">Rotated PDF downloaded.</div>'; saveHistory('pdf-studio',{summary:'Rotated all pages '+angle+'°'}); return;
+    }
+    if(mode==='jpg2pdf'){
+      const imgs=files.filter(f=>f.type.startsWith('image/')); if(!imgs.length) throw new Error('Select JPG or PNG images.');
+      const out=await PDFDocument.create();
+      for(const file of imgs){
+        const bytes=await fileToArrayBuffer(file); let embed;
+        if(file.type==='image/png') embed=await out.embedPng(bytes); else embed=await out.embedJpg(bytes);
+        const page=out.addPage([embed.width, embed.height]); page.drawImage(embed,{x:0,y:0,width:embed.width,height:embed.height});
+      }
+      const pdf=await out.save(); POLIHOV.downloadBlob(new Blob([pdf],{type:'application/pdf'}),'images-to-pdf.pdf');
+      pdfMsg.innerHTML='<div class="ok">Images converted to PDF.</div>'; saveHistory('pdf-studio',{summary:'Images to PDF / '+imgs.length+' file(s)'}); return;
+    }
+  }catch(e){pdfMsg.innerHTML='<div class="danger">'+e.message+'</div>'}
+};
+renderHistory('pdf-studio','[data-history]',i=>`<strong>${i.summary}</strong><div class="small muted">${new Date(i.at).toLocaleString()}</div>`);
+</script>
+
+</body></html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Favorites — POLIHOV TOOLS</title>
+<link rel="manifest" href="../manifest.json"/><link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body data-prefix="../tools/">
+<div class="app">
+
+<aside class="sidebar">
+  <div class="brand"><div class="brand-logo"></div><div><strong>POLIHOV TOOLS</strong><small>v6 elite</small></div></div>
+  <div class="side-section"><div class="side-title">Navigation</div><div class="nav-list">
+    <a class="nav-link" href="../index.html"><span class="nav-dot"></span> Dashboard</a>
+    <a class="nav-link" href="../pages/all-tools.html"><span class="nav-dot"></span> All tools</a>
+    <a class="nav-link" href="../pages/favorites.html"><span class="nav-dot"></span> Favorites</a>
+    <a class="nav-link" href="../pages/recent.html"><span class="nav-dot"></span> Recent</a>
+    <a class="nav-link" href="../pages/about.html"><span class="nav-dot"></span> About</a>
+  </div></div>
+  <div class="side-section"><div class="side-title">Spotlight</div><div class="nav-list">
+    <a class="nav-link" href="../tools/pdf-studio.html"><span class="nav-dot"></span> PDF Studio</a>
+    <a class="nav-link" href="../tools/image-lab.html"><span class="nav-dot"></span> Image Lab</a>
+    <a class="nav-link" href="../tools/qr-generator.html"><span class="nav-dot"></span> QR Generator</a>
+    <a class="nav-link" href="../tools/csv-json.html"><span class="nav-dot"></span> CSV ↔ JSON</a>
+  </div></div>
+  <div class="side-footer small">Premium glass UI, command palette, recent, favorites, autosave, PWA shell.</div>
+</aside>
+
+<main class="content">
+  <div class="topbar">
+    <button class="btn secondary mobile-toggle" data-mobile-toggle>☰ Menu</button>
+    <div class="searchbar"><span>★</span><input disabled value="Your pinned tools" /></div>
+    <a class="btn secondary" href="all-tools.html">Library</a>
+  </div>
+  <section class="section">
+    <div class="panel reveal">
+      <div class="section-head"><div><h2>Favorites</h2><p class="muted">Pin tools from any tool page.</p></div></div>
+      <div class="grid cards" id="favGrid"></div>
+    </div>
+  </section>
+</main>
+</div>
+
+<div class="overlay" id="commandOverlay">
+  <div class="overlay-panel">
+    <div class="controlbar"><span>⌘K</span><input id="commandInput" placeholder="Search tools, categories, tags..." /></div>
+    <div class="overlay-grid" id="commandList"></div>
+  </div>
+</div>
+
+<script src="../js/app.js"></script>
+<script>
+const out=document.getElementById('favGrid');
+const items=POLIHOV.getFavorites();
+out.innerHTML=items.length ? items.map(t=>renderCard(t,'../tools/')).join('') : '<div class="note">No favorites yet.</div>';
+revealIn();
+</script>
+</body></html>
