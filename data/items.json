@@ -3,29 +3,23 @@
   "currentListId": "dc5cf599-3ba5-4867-ba46-2e1e9f6d74bd",
   "lists": [
     {
-      "id": "eeaa0075-c9b0-49f9-a560-2d22eadc49ee",
-      "name": "Дом",
-      "createdAt": "2026-04-03T20:22:31Z",
-      "items": []
-    },
-    {
       "id": "dc5cf599-3ba5-4867-ba46-2e1e9f6d74bd",
       "name": "Автомобиль",
       "createdAt": "2026-04-03T20:22:31Z",
       "items": [
         {
           "id": "9a6243ad-5361-41a5-82a3-a846a295503e",
-          "title": "Пример: задние амортизаторы",
+          "title": "Комплект стоек в сборе",
           "category": "Подвеска",
-          "subcategory": "Задняя подвеска",
-          "price": "12 500 ₽",
-          "platform": "Exist",
-          "image": "",
-          "buyUrl": "https://example.com",
-          "note": "Тестовая карточка. Ее можно отредактировать или удалить.",
+          "subcategory": "",
+          "price": "13000 ₽",
+          "platform": "Ozon",
+          "image": "https://ir-8.ozone.ru/s3/multimedia-1-a/wc500/7747410682.jpg",
+          "buyUrl": "https://www.ozon.ru/product/stoyki-i-amortizatory-v-sbore-vaz-2110-2111-2112-2925346480/?__rr=1&from=share_android&perehod=smm_share_button_productpage_link",
+          "note": "",
           "done": false,
           "createdAt": "2026-04-03T20:22:31Z",
-          "updatedAt": "2026-04-03T20:22:31Z",
+          "updatedAt": "2026-04-05T10:10:25.863Z",
           "order": 0
         }
       ]
